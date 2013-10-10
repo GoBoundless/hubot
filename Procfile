@@ -1,1 +1,1 @@
-web: bin/hubot -a hubot-hipchat -n zion
+web: bin/hubot -a hipchat -n zion
