@@ -1,1 +1,20 @@
-["redis-brain.coffee", "shipit.coffee", "janky.coffee", "gosling.coffee", "emoji-me.coffee"]
+[
+  "redis-brain.coffee",
+  "shipit.coffee",
+  "janky.coffee",
+  "gosling.coffee",
+  "emoji-me.coffee",
+  "airbrake.coffee",
+  "darksky.coffee",
+  "do-it-live.coffee",
+  "excuse.cofffee",
+  "github-pulls.coffee",
+  "google.coffee",
+  "newrelic.coffee",
+  "pageduty.coffee",
+  "put-it-back.coffee",
+  "rageface.coffee",
+  "rubygems.coffee",
+  "sendgrid.coffee",
+  "xkcd.coffee"
+]
