@@ -67,7 +67,7 @@ module.exports = (robot) ->
       api.setGroupLightState(0, state)
     , 10
 
-  robot.respond /color me (.*})/i, (msg) ->
+  robot.respond /color me (.*)/i, (msg) ->
     api = new HueApi(host, username)
 
     requested_color = color(msg.match[1]).hsl()
