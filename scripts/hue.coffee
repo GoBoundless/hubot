@@ -44,6 +44,15 @@ module.exports = (robot) ->
 
     msg.send "Lights reset"
 
+  robot.respond /time to wake up/i, (msg) ->
+    api = new HueApi(host, username)
+
+    state = lightState.create().on().xy(0.4595, 0.4105).effect('none')
+
+    api.setGroupLightState(0, state)
+
+    msg.send "Welcome back!"
+
   robot.respond /it's bedtime/i, (msg) ->
     api = new HueApi(host, username)
 
