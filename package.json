@@ -26,7 +26,8 @@
     "githubot": ">= 0.4.x",
     "xml2js": "0.2.0",
     "jsdom": "0.2.14",
-    "node-hue-api": "https://github.com/GoBoundless/node-hue-api/tarball/master"
+    "node-hue-api": "https://github.com/GoBoundless/node-hue-api/tarball/master",
+    "nesting": "0.1.0"
   },
   "engines": {
     "node": ">= 0.8.x",
