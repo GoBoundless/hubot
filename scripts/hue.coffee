@@ -20,7 +20,7 @@ module.exports = (robot) ->
   robot.respond /red alert/i, (msg) ->
     api = new HueApi(host, username)
 
-    state = lightState.create().on().rgb(255, 0, 0).effect('none')
+    state = lightState.create().on().rgb(255, 0, 0).brightness(100).effect('none')
 
     api.setGroupLightState(0, state)
 
@@ -29,7 +29,7 @@ module.exports = (robot) ->
   robot.respond /all clear/i, (msg) ->
     api = new HueApi(host, username)
 
-    state = lightState.create().on().xy(0.4595, 0.4105).effect('none')
+    state = lightState.create().on().xy(0.4595, 0.4105).brightness(100).effect('none')
 
     api.setGroupLightState(0, state)
 
@@ -38,7 +38,7 @@ module.exports = (robot) ->
   robot.respond /reset lights/i, (msg) ->
     api = new HueApi(host, username)
 
-    state = lightState.create().on().xy(0.4595, 0.4105).effect('none')
+    state = lightState.create().on().xy(0.4595, 0.4105).brightness(100).effect('none')
 
     api.setGroupLightState(0, state)
 
@@ -47,7 +47,7 @@ module.exports = (robot) ->
   robot.respond /time to wake up/i, (msg) ->
     api = new HueApi(host, username)
 
-    state = lightState.create().on().xy(0.4595, 0.4105).effect('none')
+    state = lightState.create().on().xy(0.4595, 0.4105).brightness(100).effect('none')
 
     api.setGroupLightState(0, state)
 
@@ -72,7 +72,7 @@ module.exports = (robot) ->
     msg.send "Party Time!"
 
     setTimeout =>
-      state = lightState.create().on().xy(0.4595, 0.4105).effect('none')
+      state = lightState.create().on().xy(0.4595, 0.4105).brightness(100).effect('none')
       api.setGroupLightState(0, state)
     , 10
 
@@ -81,7 +81,7 @@ module.exports = (robot) ->
 
     requested_color = color(msg.match[1]).hsl()
 
-    state = lightState.create().on().hsl(requested_color._hue * 360, requested_color._saturation * 100, requested_color._lightness * 100).effect('node')
+    state = lightState.create().on().hsl(requested_color._hue * 360, requested_color._saturation * 100, requested_color._lightness * 100).effect('none')
 
     api.setGroupLightState(0, state)
 
