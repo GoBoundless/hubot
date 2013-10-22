@@ -1,6 +1,7 @@
 [
   "redis-brain.coffee",
   "shipit.coffee",
+  "janky.coffee",
   "emoji-me.coffee",
   "darksky.coffee",
   "do-it-live.coffee",
