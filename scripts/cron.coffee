@@ -27,21 +27,20 @@ module.exports = (robot) ->
   uptime_monitor = new cronJob("0 * * * * *", ->
     auth = new Buffer("#{username}:#{password}").toString('base64')
     pingdom_url = "https://api.pingdom.com/api/2.0"
-    robot.http("#{pingdom_url}/checks")
+    robot.http("#{pingdom_url}/checks/573164")
       .headers(Authorization: "Basic #{auth}", 'App-Key': app_key)
         .get() (err, res, body) ->
           content = JSON.parse(body)
-          for check in content.checks
-            if check.name == "WWW"
-              previous_status = robot.brain.get('siteStatus')
-              if previous_status?
-                if previous_status.match(/up/) && check.status.match(/down/)
-                  robot.emit('siteDown')
-                  robot.messageRoom(room, "@all The site appears to be down.")
-                else if previous_status.match(/down/) && check.status.match(/up/)
-                  robot.emit('siteUp')
-                  robot.messageRoom(room, "@all The site appears to be back up.")
-              robot.brain.set('siteStatus', check.status)
+          if content.check?
+            previous_status = robot.brain.get('siteStatus')
+            if previous_status?
+              if previous_status.match(/up/) && content.check.status.match(/down/)
+                robot.emit('siteDown')
+                robot.messageRoom(room, "@all The site appears to be down.")
+              else if previous_status.match(/down/) && content.check.status.match(/up/)
+                robot.emit('siteUp')
+                robot.messageRoom(room, "@all The site appears to be back up.")
+            robot.brain.set('siteStatus', content.check.status)
   , null, true, "US/Eastern")
 
   standup_reminder.start()
