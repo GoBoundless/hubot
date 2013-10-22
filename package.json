@@ -28,7 +28,9 @@
     "jsdom": "0.2.14",
     "node-hue-api": "0.2.2",
     "nesting": "0.1.0",
-    "onecolor": "2.3.4"
+    "onecolor": "2.3.4",
+    "node-cron": "1.0.1",
+    "time": "0.9.2"
   },
   "engines": {
     "node": ">= 0.8.x",

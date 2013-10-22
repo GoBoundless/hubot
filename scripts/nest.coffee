@@ -40,12 +40,11 @@ module.exports = (robot) ->
 
   robot.respond /it's(.*) cold/i, (msg) ->
     msg.send("Put on a hoodie you sissy...")
+    nest.login options.login, options.password, (data) ->
+      changeTemperatureBy 1, msg
 
   robot.respond /nest status/i, (msg) ->
     msg.send("Checking...")
-    #msg.send(options.login)
-    #msg.send(options.password)
-    #msg.send(options.nest_id)
     nest.login options.login, options.password, (data) ->
       nest.fetchStatus (data) ->
         current_target = data.shared[options.nest_id].target_temperature
