@@ -26,7 +26,7 @@ module.exports = (robot) ->
 
 
 savedIo = (msg, link, description, callback) ->
-  if link.indexOf('http://') == -1
+  if link.indexOf('http://') == -1 && link.indexOf('https://') == -1
     link = 'http://'+link
 
   postData = {
