@@ -17,8 +17,8 @@ request = require 'request'
 
 module.exports = (robot) ->
 
-  robot.respond /(link of the day )(.*)( -- )(.*)/i, (msg) ->
-    savedIo msg, msg.match[2], msg.match[4], (success, response) ->
+  robot.respond /link of the day (.*) (?:--|—) (.*)/i, (msg) ->
+    savedIo msg, msg.match[1], msg.match[2], (success, response) ->
       if !success
         msg.send "I couldn't save that link: #{response}"
       else
