@@ -23,7 +23,7 @@ ssPublishEmail = 'pbm+boundless-learning+ejx0g8@squarespace.com'
 module.exports = (robot) ->
 
   robot.respond /link of the day (.*) (?:--|—) (.*)/i, (msg) ->
-    lod.savedIoPost msg, msg.match[2], msg.match[4], (success, response) ->
+    lod.savedIoPost msg, msg.match[1], msg.match[2], (success, response) ->
       if !success
         msg.send "I couldn't save that link: #{response}"
       else
