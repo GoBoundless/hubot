@@ -63,7 +63,7 @@ class linkOfDay
 
   checkForNew: ->
     yday = new Date()
-    yday.setDate(yday.getDate()) #-1
+    yday.setDate(yday.getDate()-1)
     ydayStart = new Date(yday.getFullYear(), yday.getMonth(), yday.getDate()).getTime()
     ydayEnd = ydayStart + 86400000 #+ 1 day (ms)
 
