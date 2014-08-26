@@ -62,10 +62,16 @@ class linkOfDay
 
 
   checkForNew: ->
-    yday = new Date()
+    #we want it in EST
+    est = {timeZone: 'America/New_York'}
+    estTime = new Date().toLocaleString("en-US", est)
+
+    yday = new Date(estTime)
     yday.setDate(yday.getDate()-1)
     ydayStart = new Date(yday.getFullYear(), yday.getMonth(), yday.getDate()).getTime()
     ydayEnd = ydayStart + 86400000 #+ 1 day (ms)
+
+    console.log(ydayStart, ydayEnd)
 
     getData = {
       token: savedIoToken,
