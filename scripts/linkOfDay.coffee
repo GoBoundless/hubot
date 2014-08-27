@@ -42,7 +42,7 @@ class linkOfDay
       link = 'http://'+link
 
     postData = {
-      token: '7674efe121b69608e92565cbe1241565',
+      token: savedIoToken,
       url: link,
       title: description
     }
