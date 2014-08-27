@@ -16,9 +16,11 @@
 request = require 'request'
 qs = require 'querystring'
 
+#required settings
 savedIoToken = '7674efe121b69608e92565cbe1241565'
 mandrillToken = 'hQ9kLzEyVGfLVc3lhQfWWA'
 ssPublishEmail = 'pbm+boundless-learning+ejx0g8@squarespace.com'
+UTCoffset = -5 #EST
 
 module.exports = (robot) ->
 
@@ -62,16 +64,15 @@ class linkOfDay
 
 
   checkForNew: ->
-    #we want it in EST
-    est = {timeZone: 'America/New_York'}
-    estTime = new Date().toLocaleString("en-US", est)
-
-    yday = new Date(estTime)
+    yday = new Date()
     yday.setDate(yday.getDate()-1)
     ydayStart = new Date(yday.getFullYear(), yday.getMonth(), yday.getDate()).getTime()
     ydayEnd = ydayStart + 86400000 #+ 1 day (ms)
 
-    console.log(ydayStart, ydayEnd)
+    #Account for timezone offset (set above)
+    UTCoffsetMs = UTCoffset*3600000 #3600000 ms in an hour
+    ydayStart = ydayStart + UTCoffsetMs
+    ydayEnd = ydayEnd + UTCoffsetMs
 
     getData = {
       token: savedIoToken,
