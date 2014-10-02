@@ -5,7 +5,7 @@
 #   None
 #
 # Configuration:
-#   None
+#   HUBOT_MUSIC_API_KEY
 #
 # Commands:
 #   hubot play <spotify_uri>      - Starts playing the given spotify uri (get by right clicking a song in spotify and clicking "Copy Spotify URI")
@@ -66,7 +66,7 @@ module.exports = (robot) ->
   
   
 tellSpotify = (msg, command, params, callback) ->
-  api_key = "oAj7hCqVJdRfYTfmXePE7CnnWUPWeN"
+  music_api_key = process.env.HUBOT_MUSIC_API_KEY
   params_str = ""
   
   for key, value of params
@@ -74,7 +74,7 @@ tellSpotify = (msg, command, params, callback) ->
     clean_value = escape(value)
     params_str += "&#{clean_key}=#{clean_value}"
   
-  url = "http://music.boundlesslearning.com/spotify/#{command}?api_key=#{api_key}#{params_str}"
+  url = "http://music.boundlesslearning.com/spotify/#{command}?api_key=#{music_api_key}#{params_str}"
   msg.http(url)
     .get() (err, res, body) ->
       if err
