@@ -1,1 +1,1 @@
-hubot: bin/hubot -a flowdock -n zion
+zion: bin/hubot -a flowdock -n zion
