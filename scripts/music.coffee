@@ -55,7 +55,8 @@ module.exports = (robot) ->
       track = response['track']
       artist = response['artist']
       uri = response['uri']
-      msg.send "Currently '#{track}' by '#{artist}' (#{uri}) is playing."
+      url = uri.replace("spotify:", "http://open.spotify.com/").replace(":", "/")
+      msg.send "Currently '#{track}' by '#{artist}' (#{url}) is playing."
   
   
 tellSpotify = (msg, command, params, callback) ->
