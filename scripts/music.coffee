@@ -62,8 +62,10 @@ module.exports = (robot) ->
       artist = response['artist']
       uri = response['uri']
       url = uri.replace(/:/g, "/").replace("spotify/", "http://open.spotify.com/")
-      test = msg.envelope.room
-      msg.send "#{url} (#{test})"
+      user = msg.message.user
+      user_name = user.name
+      room = user.flow
+      msg.send "#{url} (#{user_name} - #{room})"
   
   
 tellSpotify = (msg, command, params, callback) ->
