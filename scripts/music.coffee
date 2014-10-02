@@ -14,6 +14,7 @@
 #   hubot next song               - Skips to the next song
 #   hubot skip song               - Skips to the next song
 #   hubot previous song           - Goes to the previous song
+#   hubot what's the volume?      - Gets the current volume
 #   hubot set volume <0 to 100>   - Sets the volume to the given percentage
 #   hubot what's playing?         - Lists what's currently being played
 #
