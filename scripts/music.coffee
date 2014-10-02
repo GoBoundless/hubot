@@ -55,7 +55,7 @@ module.exports = (robot) ->
       track = response['track']
       artist = response['artist']
       uri = response['uri']
-      url = uri.replace("spotify:", "http://open.spotify.com/").replace(":", "/")
+      url = uri.replace(":", "/").replace("spotify/", "http://open.spotify.com/")
       msg.send "Currently '#{track}' by '#{artist}' (#{url}) is playing."
   
   
