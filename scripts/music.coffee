@@ -28,15 +28,15 @@ module.exports = (robot) ->
       artist = response['artist']
       msg.send "Now playing '#{title}' by '#{artist}.'"
   
-  robot.respond /pause (?:the )music/i, (msg) ->
+  robot.respond /pause (?:the )?music/i, (msg) ->
     tellSpotify msg, "pause", {}, (response) ->
       msg.send "The music has been paused."
   
-  robot.respond /resume (?:the )music/i, (msg) ->
+  robot.respond /resume (?:the )?music/i, (msg) ->
     tellSpotify msg, "resume", {}, (response) ->
       msg.send "The music has been resumed."
   
-  robot.respond /(?:skip|next) (?:this )song/i, (msg) ->
+  robot.respond /(?:skip|next) (?:this )?song/i, (msg) ->
     tellSpotify msg, "next", {}, (response) ->
       msg.send "The current song has been skipped."
   
@@ -44,7 +44,7 @@ module.exports = (robot) ->
     tellSpotify msg, "previous", {}, (response) ->
       msg.send "Going back to the previous song."
   
-  robot.respond /set (?:the )volume (?:to )([0-9]+)/i, (msg) ->
+  robot.respond /set (?:the )?volume (?:to )?([0-9]+)/i, (msg) ->
     tellSpotify msg, "set_volume", {volume: msg.match[1]}, (response) ->
       volume = response['volume']
       msg.send "The volume has been set to #{volume}."
