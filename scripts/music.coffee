@@ -62,10 +62,12 @@ module.exports = (robot) ->
       artist = response['artist']
       uri = response['uri']
       url = uri.replace(/:/g, "/").replace("spotify/", "http://open.spotify.com/")
-      msg.send "#{url}"
+      test = msg.envelope.room
+      msg.send "#{url} (#{test})"
   
   
 tellSpotify = (msg, command, params, callback) ->
+  
   music_api_key = process.env.HUBOT_MUSIC_API_KEY
   params_str = ""
   
