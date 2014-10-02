@@ -50,12 +50,12 @@ module.exports = (robot) ->
       volume = response['volume']
       msg.send "The volume has been set to #{volume}."
   
-  robot.respond /\s*what.?s (?:the )?volume\?/i, (msg) ->
+  robot.respond /\s*what.?s (?:the )?volume\??/i, (msg) ->
     tellSpotify msg, "status", {}, (response) ->
       volume = response['volume']
       msg.send "The volume is at #{volume}."
   
-  robot.respond /\s*what.?s (?:playing|the music)\?/i, (msg) ->
+  robot.respond /\s*what.?s (?:playing|the music)\??/i, (msg) ->
     tellSpotify msg, "status", {}, (response) ->
       track = response['track']
       artist = response['artist']
