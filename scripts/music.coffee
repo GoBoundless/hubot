@@ -25,9 +25,9 @@ module.exports = (robot) ->
   robot.respond /play (.*)/i, (msg) ->
     tellSpotify msg, "play", {uri: msg.match[1]}, (response) ->
       tellSpotify msg, "status", {}, (response) ->
-        title = response['title']
+        track = response['track']
         artist = response['artist']
-        msg.send "Now playing '#{title}' by '#{artist}.'"
+        msg.send "Now playing '#{track}' by '#{artist}.'"
   
   robot.respond /pause (?:the )?music/i, (msg) ->
     tellSpotify msg, "pause", {}, (response) ->
@@ -52,10 +52,10 @@ module.exports = (robot) ->
   
   robot.respond /what'?s (?:playing|the music)\?/i, (msg) ->
     tellSpotify msg, "status", {}, (response) ->
-      title = response['title']
+      track = response['track']
       artist = response['artist']
       uri = response['uri']
-      msg.send "Currently '#{title}' by '#{artist}' (#{uri}) is playing."
+      msg.send "Currently '#{track}' by '#{artist}' (#{uri}) is playing."
   
   
 tellSpotify = (msg, command, params, callback) ->
