@@ -24,7 +24,7 @@ module.exports = (robot) ->
 
   robot.respond /play (.*)/i, (msg) ->
     tellSpotify msg, "play", {uri: msg.match[1]}, (response) ->
-      tellSpotify msg, "info", {}, (response) ->
+      tellSpotify msg, "status", {}, (response) ->
         title = response['title']
         artist = response['artist']
         msg.send "Now playing '#{title}' by '#{artist}.'"
@@ -51,7 +51,7 @@ module.exports = (robot) ->
       msg.send "The volume has been set to #{volume}."
   
   robot.respond /what'?s (?:playing|the music)\?/i, (msg) ->
-    tellSpotify msg, "info", {}, (response) ->
+    tellSpotify msg, "status", {}, (response) ->
       title = response['title']
       artist = response['artist']
       uri = response['uri']
