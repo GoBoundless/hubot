@@ -22,41 +22,46 @@
 
 module.exports = (robot) ->
 
-  robot.respond /play (.*)/i, (msg) ->
+  robot.respond /\s*play (.*)/i, (msg) ->
     tellSpotify msg, "play", {uri: msg.match[1]}, (response) ->
       tellSpotify msg, "status", {}, (response) ->
         track = response['track']
         artist = response['artist']
         msg.send "Now playing '#{track}' by '#{artist}.'"
   
-  robot.respond /pause (?:the )?music/i, (msg) ->
+  robot.respond /\s*pause (?:the )?music/i, (msg) ->
     tellSpotify msg, "pause", {}, (response) ->
       msg.send "The music has been paused."
   
-  robot.respond /resume (?:the )?music/i, (msg) ->
+  robot.respond /\s*resume (?:the )?music/i, (msg) ->
     tellSpotify msg, "resume", {}, (response) ->
       msg.send "The music has been resumed."
   
-  robot.respond /(?:skip|next) (?:this )?song/i, (msg) ->
+  robot.respond /\s*(?:skip|next) (?:this )?song/i, (msg) ->
     tellSpotify msg, "next", {}, (response) ->
       msg.send "The current song has been skipped."
   
-  robot.respond /previous song/i, (msg) ->
+  robot.respond /\s*previous song/i, (msg) ->
     tellSpotify msg, "previous", {}, (response) ->
       msg.send "Going back to the previous song."
   
-  robot.respond /set (?:the )?volume (?:to )?([0-9]+)/i, (msg) ->
+  robot.respond /\s*set (?:the )?volume (?:to )?([0-9]+)/i, (msg) ->
     tellSpotify msg, "set_volume", {volume: msg.match[1]}, (response) ->
       volume = response['volume']
       msg.send "The volume has been set to #{volume}."
   
-  robot.respond /what'?s (?:playing|the music)\?/i, (msg) ->
+  robot.respond /\s*what.?s (?:the )?volume\?/i, (msg) ->
+    tellSpotify msg, "status", {}, (response) ->
+      volume = response['volume']
+      msg.send "The volume is at #{volume}."
+  
+  robot.respond /\s*what.?s (?:playing|the music)\?/i, (msg) ->
     tellSpotify msg, "status", {}, (response) ->
       track = response['track']
       artist = response['artist']
       uri = response['uri']
       url = uri.replace(/:/g, "/").replace("spotify/", "http://open.spotify.com/")
-      msg.send "Currently #{url} is playing."
+      msg.send "#{url}"
   
   
 tellSpotify = (msg, command, params, callback) ->
