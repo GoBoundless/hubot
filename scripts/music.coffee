@@ -8,7 +8,7 @@
 #   None
 #
 # Commands:
-#   hubot play <spotify_uri>      - Starts playing the given spotify uri
+#   hubot play <spotify_uri>      - Starts playing the given spotify uri (get by right clicking a song in spotify and clicking "Copy Spotify URI")
 #   hubot pause music             - Pauses the music
 #   hubot resume music            - Resumes the music
 #   hubot next song               - Skips to the next song
