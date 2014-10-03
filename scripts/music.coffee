@@ -24,40 +24,40 @@
 module.exports = (robot) ->
 
   robot.respond /\s*play (.*)/i, (msg) ->
-    tellSpotify msg, "play", {uri: msg.match[1]}, (response) ->
-      tellSpotify msg, "status", {}, (response) ->
+    tellSpotify msg, "play", {uri: msg.match[1]}, {}, (response) ->
+      tellSpotify msg, "status", {}, {}, (response) ->
         track = response['track']
         artist = response['artist']
         msg.send "Now playing '#{track}' by '#{artist}.'"
   
   robot.respond /\s*pause (?:the )?music/i, (msg) ->
-    tellSpotify msg, "pause", {}, (response) ->
+    tellSpotify msg, "pause", {}, {}, (response) ->
       msg.send "The music has been paused."
   
   robot.respond /\s*resume (?:the )?music/i, (msg) ->
-    tellSpotify msg, "resume", {}, (response) ->
+    tellSpotify msg, "resume", {}, {}, (response) ->
       msg.send "The music has been resumed."
   
   robot.respond /\s*(?:skip|next) (?:this )?song/i, (msg) ->
-    tellSpotify msg, "next", {}, (response) ->
+    tellSpotify msg, "next", {}, {}, (response) ->
       msg.send "The current song has been skipped."
   
   robot.respond /\s*previous song/i, (msg) ->
-    tellSpotify msg, "previous", {}, (response) ->
+    tellSpotify msg, "previous", {}, {}, (response) ->
       msg.send "Going back to the previous song."
   
   robot.respond /\s*set (?:the )?volume (?:to )?([0-9]+)/i, (msg) ->
-    tellSpotify msg, "set_volume", {volume: msg.match[1]}, (response) ->
+    tellSpotify msg, "set_volume", {volume: msg.match[1]}, {}, (response) ->
       volume = response['volume']
       msg.send "The volume has been set to #{volume}."
   
   robot.respond /\s*what.?s (?:the )?volume\??/i, (msg) ->
-    tellSpotify msg, "status", {}, (response) ->
+    tellSpotify msg, "status", {}, {anywhere: true}, (response) ->
       volume = response['volume']
       msg.send "The volume is at #{volume}."
   
   robot.respond /\s*what.?s (?:playing|the music)\??/i, (msg) ->
-    tellSpotify msg, "status", {}, (response) ->
+    tellSpotify msg, "status", {}, {anywhere: true}, (response) ->
       track = response['track']
       artist = response['artist']
       uri = response['uri']
@@ -65,8 +65,8 @@ module.exports = (robot) ->
       msg.send "#{url}"
   
   
-tellSpotify = (msg, command, params, callback) ->
-  if music_room = process.env.MUSIC_ROOM
+tellSpotify = (msg, command, params, options, callback) ->
+  if (music_room = process.env.MUSIC_ROOM) && !options["anywhere"]
     user = msg.message.user
     user_name = user.name
     room = user.flow
