@@ -6,6 +6,8 @@
 #
 # Configuration:
 #   HUBOT_MUSIC_API_KEY
+#   MUSIC_ROOM_ID
+#   MUSIC_ROOM_PRETTY_NAME
 #
 # Commands:
 #   hubot play <spotify_uri>      - Starts playing the given spotify uri (get by right clicking a song in spotify and clicking "Copy Spotify URI")
