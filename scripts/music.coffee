@@ -16,6 +16,10 @@
 #   hubot next song               - Skips to the next song
 #   hubot skip song               - Skips to the next song
 #   hubot previous song           - Goes to the previous song
+#   hubot shuffle music           - Shuffles the music
+#   hubot don't shuffle music     - Stops shuffling the music
+#   hubot loop music              - Loops the music
+#   hubot don't loop music        - Stops looping the music
 #   hubot what's the volume?      - Gets the current volume
 #   hubot set volume <0 to 100>   - Sets the volume to the given percentage
 #   hubot what's playing?         - Lists what's currently being played
@@ -47,6 +51,22 @@ module.exports = (robot) ->
   robot.respond /\s*previous song/i, (msg) ->
     tellSpotify msg, "previous", {}, {}, (response) ->
       msg.send "Going back to the previous song."
+  
+  robot.respond /\s*shuffle (?:the )?music/i, (msg) ->
+    tellSpotify msg, "set_shuffling", {shuffling: true}, {}, (response) ->
+      msg.send "The playlist will now be shuffled."
+  
+  robot.respond /\s*don.?t shuffle (?:the )?music/i, (msg) ->
+    tellSpotify msg, "set_shuffling", {shuffling: false}, {}, (response) ->
+      msg.send "The playlist will not be shuffled."
+  
+  robot.respond /\s*loop (?:the )?music/i, (msg) ->
+    tellSpotify msg, "set_looping", {looping: true}, {}, (response) ->
+      msg.send "The playlist will now be looped."
+  
+  robot.respond /\s*don.?t loop (?:the )?music/i, (msg) ->
+    tellSpotify msg, "set_looping", {looping: false}, {}, (response) ->
+      msg.send "The playlist will not be looped."
   
   robot.respond /\s*set (?:the )?volume (?:to )?([0-9]+)/i, (msg) ->
     tellSpotify msg, "set_volume", {volume: msg.match[1]}, {}, (response) ->
