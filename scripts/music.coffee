@@ -62,13 +62,17 @@ module.exports = (robot) ->
       artist = response['artist']
       uri = response['uri']
       url = uri.replace(/:/g, "/").replace("spotify/", "http://open.spotify.com/")
-      user = msg.message.user
-      user_name = user.name
-      room = user.flow
-      msg.send "#{url} (#{user_name} - #{room})"
+      msg.send "#{url}"
   
   
 tellSpotify = (msg, command, params, callback) ->
+  if music_room = process.env.MUSIC_ROOM
+    user = msg.message.user
+    user_name = user.name
+    room = user.flow
+    if room != music_room
+      msg.send "Music can only be controlled from #{music_room}."
+      return
   
   music_api_key = process.env.HUBOT_MUSIC_API_KEY
   params_str = ""
