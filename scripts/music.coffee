@@ -66,12 +66,13 @@ module.exports = (robot) ->
   
   
 tellSpotify = (msg, command, params, options, callback) ->
-  if (music_room = process.env.MUSIC_ROOM) && !options["anywhere"]
+  if (music_room_id = process.env.MUSIC_ROOM_ID) && !options["anywhere"]
     user = msg.message.user
     user_name = user.name
     room = user.flow
-    if room != music_room
-      msg.send "Music can only be controlled from #{music_room}."
+    if room != music_room_id
+      music_room_pretty = process.env.MUSIC_ROOM_PRETTY_NAME || music_room_id
+      msg.send "Music can only be controlled from #{music_room_pretty}."
       return
   
   music_api_key = process.env.HUBOT_MUSIC_API_KEY
