@@ -36,7 +36,7 @@ module.exports = (robot) ->
         artist = response['artist']
         msg.send "Now playing '#{track}' by '#{artist}.'"
   
-  robot.respond /\s*pause (?:the )?music/i, (msg) ->
+  robot.respond /\s*(?:pause|stop) (?:the )?music/i, (msg) ->
     tellSpotify msg, "pause", {}, {}, (response) ->
       msg.send "The music has been paused."
   
