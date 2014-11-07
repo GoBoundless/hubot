@@ -40,7 +40,7 @@ module.exports = (robot) ->
     tellSpotify msg, "pause", {}, {}, (response) ->
       msg.send "The music has been paused."
   
-  robot.respond /\s*resume (?:the )?music/i, (msg) ->
+  robot.respond /\s*(?:unpause|resume) (?:the )?music/i, (msg) ->
     tellSpotify msg, "resume", {}, {}, (response) ->
       msg.send "The music has been resumed."
   
