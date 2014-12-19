@@ -86,6 +86,10 @@ module.exports = (robot) ->
       url = uri.replace(/:/g, "/").replace("spotify/", "http://open.spotify.com/")
       msg.send "#{url}"
   
+  robot.respond /\s*fix (?:the )?music/i, (msg) ->
+    tellSpotify msg, "connect", {}, {anywhere: true}, (response) ->
+      msg.send "The music should be fixed."
+  
   
 tellSpotify = (msg, command, params, options, callback) ->
   if (music_room_id = process.env.MUSIC_ROOM_ID) && !options["anywhere"]
