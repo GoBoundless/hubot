@@ -22,8 +22,7 @@
   "dependencies": {
     "hubot": ">= 2.6.0 < 3.0.0",
     "hubot-scripts": ">= 2.5.0 < 3.0.0",
-    "hubot-hipchat": "~2.5.1-5",
-    "hubot-flowdock": ">= 0.0.1",
+    "hubot-flowdock": ">= 0.7.5",
     "githubot": ">= 0.4.x",
     "xml2js": "0.2.0",
     "jsdom": "0.2.14",
