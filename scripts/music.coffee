@@ -1,25 +1,28 @@
 # Description:
-#   Control the shared Spotify server in the office
+#   Control a shared music server
 #
 # Dependencies:
 #   None
 #
 # Configuration:
 #   HUBOT_MUSIC_API_KEY
-#   MUSIC_ROOM_ID
-#   MUSIC_ROOM_PRETTY_NAME
 #
 # Commands:
 #   hubot play <spotify_uri>      - Starts playing the given spotify uri (get by right clicking a song in spotify and clicking "Copy Spotify URI")
-#   hubot pause music             - Pauses the music
-#   hubot resume music            - Resumes the music
-#   hubot next song               - Skips to the next song
-#   hubot skip song               - Skips to the next song
-#   hubot previous song           - Goes to the previous song
-#   hubot shuffle music           - Shuffles the music
-#   hubot don't shuffle music     - Stops shuffling the music
-#   hubot loop music              - Loops the music
-#   hubot don't loop music        - Stops looping the music
+#   hubot pause                   - Pauses the music
+#   hubot stop                    - Pauses the music
+#   hubot unpause                 - Resumes the music
+#   hubot resume                  - Resumes the music
+#   hubot next                    - Skips to the next song
+#   hubot skip                    - Skips to the next song
+#   hubot previous                - Goes to the previous song
+#   hubot back                    - Goes to the previous song
+#   hubot shuffle                 - Shuffles the music
+#   hubot don't shuffle           - Stops shuffling the music
+#   hubot loop                    - Loops the music
+#   hubot don't loop              - Stops looping the music
+#   hubot repeat                  - Loops the music
+#   hubot don't repeat            - Stops looping the music
 #   hubot what's the volume?      - Gets the current volume
 #   hubot set volume <0 to 100>   - Sets the volume to the given percentage
 #   hubot what's playing?         - Lists what's currently being played
@@ -30,90 +33,101 @@
 module.exports = (robot) ->
 
   robot.respond /\s*play (.*)/i, (msg) ->
-    tellSpotify msg, "play", {uri: msg.match[1]}, {}, (response) ->
-      tellSpotify msg, "status", {}, {}, (response) ->
-        track = response['track']
-        artist = response['artist']
-        msg.send "Now playing '#{track}' by '#{artist}.'"
+    tellSpotify msg, 'play', 'POST', {uri: msg.match[1]}, (response) ->
+      track = response['track']
+      artist = response['artist']
+      msg.send "Now playing '#{track}' by '#{artist}.'"
   
-  robot.respond /\s*(?:pause|stop) (?:the )?music/i, (msg) ->
-    tellSpotify msg, "pause", {}, {}, (response) ->
+  robot.respond /\s*(?:pause|stop)/i, (msg) ->
+    tellSpotify msg, "pause", 'POST', {}, (response) ->
       msg.send "The music has been paused."
   
-  robot.respond /\s*(?:unpause|resume) (?:the )?music/i, (msg) ->
-    tellSpotify msg, "resume", {}, {}, (response) ->
+  robot.respond /\s*(?:unpause|resume|play)/i, (msg) ->
+    tellSpotify msg, "resume", 'POST', {}, (response) ->
       msg.send "The music has been resumed."
   
-  robot.respond /\s*(?:skip|next) (?:this )?song/i, (msg) ->
-    tellSpotify msg, "next", {}, {}, (response) ->
+  robot.respond /\s*(?:skip|next)/i, (msg) ->
+    tellSpotify msg, "next", 'POST', {}, (response) ->
       msg.send "The current song has been skipped."
   
-  robot.respond /\s*previous song/i, (msg) ->
-    tellSpotify msg, "previous", {}, {}, (response) ->
+  robot.respond /\s*(?:previous|back)/i, (msg) ->
+    tellSpotify msg, "previous", 'POST', {}, (response) ->
       msg.send "Going back to the previous song."
   
-  robot.respond /\s*shuffle (?:the )?music/i, (msg) ->
-    tellSpotify msg, "set_shuffling", {shuffling: true}, {}, (response) ->
+  robot.respond /\s*shuffle/i, (msg) ->
+    tellSpotify msg, "shuffle", 'POST', {shuffle: true}, (response) ->
       msg.send "The playlist will now be shuffled."
   
-  robot.respond /\s*don.?t shuffle (?:the )?music/i, (msg) ->
-    tellSpotify msg, "set_shuffling", {shuffling: false}, {}, (response) ->
+  robot.respond /\s*don.?t shuffle/i, (msg) ->
+    tellSpotify msg, "shuffle", 'POST', {shuffle: false}, (response) ->
       msg.send "The playlist will not be shuffled."
   
-  robot.respond /\s*loop (?:the )?music/i, (msg) ->
-    tellSpotify msg, "set_looping", {looping: true}, {}, (response) ->
+  robot.respond /\s*(?:loop|repeat)/i, (msg) ->
+    tellSpotify msg, "repeat", 'POST', {repeat: true}, (response) ->
       msg.send "The playlist will now be looped."
   
-  robot.respond /\s*don.?t loop (?:the )?music/i, (msg) ->
-    tellSpotify msg, "set_looping", {looping: false}, {}, (response) ->
+  robot.respond /\s*don.?t (?:loop|repeat)/i, (msg) ->
+    tellSpotify msg, "repeat", 'POST', {repeat: false}, (response) ->
       msg.send "The playlist will not be looped."
   
   robot.respond /\s*set (?:the )?volume (?:to )?([0-9]+)/i, (msg) ->
-    tellSpotify msg, "set_volume", {volume: msg.match[1]}, {}, (response) ->
+    tellSpotify msg, "volume", 'POST', {volume: msg.match[1]}, (response) ->
       volume = response['volume']
       msg.send "The volume has been set to #{volume}."
   
   robot.respond /\s*what.?s (?:the )?volume\??/i, (msg) ->
-    tellSpotify msg, "status", {}, {anywhere: true}, (response) ->
+    tellSpotify msg, "status", 'GET', {}, (response) ->
       volume = response['volume']
       msg.send "The volume is at #{volume}."
   
-  robot.respond /\s*what.?s (?:playing|the music)\??/i, (msg) ->
-    tellSpotify msg, "status", {}, {anywhere: true}, (response) ->
+  robot.respond /\s*what.?s playing\??/i, (msg) ->
+    tellSpotify msg, "status", 'GET', {}, (response) ->
       track = response['track']
       artist = response['artist']
       uri = response['uri']
       url = uri.replace(/:/g, "/").replace("spotify/", "http://open.spotify.com/")
       msg.send "#{url}"
-  
-  robot.respond /\s*fix (?:the )?music/i, (msg) ->
-    tellSpotify msg, "connect", {}, {anywhere: true}, (response) ->
-      msg.send "The music should be fixed."
-  
-  
-tellSpotify = (msg, command, params, options, callback) ->
-  if (music_room_id = process.env.MUSIC_ROOM_ID) && !options["anywhere"]
-    user = msg.message.user
-    user_name = user.name
-    room = user.flow
-    if room != music_room_id
-      music_room_pretty = process.env.MUSIC_ROOM_PRETTY_NAME || music_room_id
-      msg.send "Music can only be controlled from #{music_room_pretty}."
-      return
-  
+
+tellSpotify = (msg, command, method, params, callback) ->
   music_api_key = process.env.HUBOT_MUSIC_API_KEY
-  params_str = ""
+  if !music_api_key
+    msg.send "Music API key is not set, unable to continue"
+    return
+  
+  params_array = []
+  params_array_str = ""
   
   for key, value of params
     clean_key = escape(key)
     clean_value = escape(value)
-    params_str += "&#{clean_key}=#{clean_value}"
+    params_array.push "#{clean_key}=#{clean_value}"
   
-  url = "http://music.boundlesslearning.com/spotify/#{command}?api_key=#{music_api_key}#{params_str}"
-  msg.http(url)
-    .get() (err, res, body) ->
+  if params_array.length > 0
+    params_array_str = params_array.join("&")
+  
+  url = "https://music-remote.herokuapp.com/api/hubot/v1/#{music_api_key}/#{command}"
+  remote_call = null
+  switch method
+    when 'GET'
+      url = "#{url}?#{params_array_str}" if params_array_str.length > 0
+      remote_call = msg.http(url).get()
+    when 'POST'
+      remote_call = msg.http(url).post(params_array_str)
+  
+  if remote_call
+    remote_call (err, res, body) =>
       if err
-        msg.send "Error communicating with the Spotify client: #{err}"
+        msg.send "Error communicating with the music client: #{err}"
         return
       content = JSON.parse(body)
-      callback(content)
+      if content?
+        if content['success']
+          callback(content['status'])
+        else if content['error']
+          msg.send content['error']
+        else
+          msg.send "Error communicating with the music client"
+      else
+        msg.send "Invalid response"
+  else
+    msg.send "Invalid request"
